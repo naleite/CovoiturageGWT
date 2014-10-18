@@ -6,7 +6,7 @@ import fr.istic.gla.shared.*;
 import java.util.Date;
 import java.util.List;
 
-public interface MyService {
+public interface CovoitService {
 	
 	public abstract String proposeTrajet(String id, String depart, String dest, Date dateDeDepart);
 	
@@ -19,5 +19,7 @@ public interface MyService {
 	public abstract Personne deleteById(String arg0);
 	
 	public abstract List<Personne> getAllPersonne();
+
+
 	
 }

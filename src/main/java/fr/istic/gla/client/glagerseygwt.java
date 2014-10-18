@@ -35,7 +35,7 @@ public class glagerseygwt implements EntryPoint {
 
 			public void onClick(ClickEvent event) {
 				RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, GWT
-						.getHostPageBaseURL() + "rest/ev/");
+						.getHostPageBaseURL() + "rest/ev/1");
 				rb.setCallback(new RequestCallback() {
 
 					public void onError(Request request, Throwable exception) {
@@ -45,6 +45,7 @@ public class glagerseygwt implements EntryPoint {
 					public void onResponseReceived(Request request,
 							Response response) {
 						if (200 == response.getStatusCode()) {
+
 
 							Window.alert("get the book from :" +response.getText());
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Path("/ev")
-public class EvenementResource implements MyService {
+public class EvenementResource implements CovoitService {
 
 	private List<Evenement> evenements=new ArrayList<Evenement>();
 	
@@ -75,25 +75,26 @@ public class EvenementResource implements MyService {
 		
 	}
 	
-	@GET
+	@POST
 	@Path("propose/{id}-{depart}-{dest}")
-	@Produces(MediaType.TEXT_PLAIN)
+	//@Produces(MediaType.TEXT_PLAIN)
 	public String proposeTrajet(@PathParam ("id") String id, String depart, String dest,
 			Date dateDeDepart) {
-		Query query=manager.createQuery("SELECT p FROM PERSONNE  AS p WHERE ID=id");
+
+		Query query=manager.createQuery("SELECT p FROM PERSONNE AS p WHERE ID=id");
 		List result=query.getResultList();
-	
+
 		Personne personne = (Personne) result.get(0);
 		manager.persist(personne.proposeTrajet(depart, dest, dateDeDepart));
 		return "OK";
 	}
 	
 	@GET
-	@Path("findev/{depart}/{dest}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public List<Evenement> findEvenement(String depart, String dest,
-			Date fromTime, Date toTime) {
-		Query query=manager.createQuery("SELECT evens FROM EVENEMENT AS evens WHERE DATE<=toTime AND DATE>=fromTime");
+	@Path("findev/{depart}-{dest}-{from}-{to}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Evenement> findEvenement(@PathParam("depart")String depart, @PathParam("dest")String dest,
+			@PathParam("from")Date fromTime,@PathParam("to") Date toTime) {
+		Query query=manager.createQuery("SELECT evens FROM EVENEMENT AS evens WHERE DATE<=toTime AND DATE>=fromTime AND DEPART=depart AND DEST=dest");
 		List result=query.getResultList();
 		return result;
 	}
