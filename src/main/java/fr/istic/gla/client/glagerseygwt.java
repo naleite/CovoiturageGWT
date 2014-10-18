@@ -35,7 +35,7 @@ public class glagerseygwt implements EntryPoint {
 
 			public void onClick(ClickEvent event) {
 				RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, GWT
-						.getHostPageBaseURL() + "rest/ev/1");
+						.getHostPageBaseURL() + "rest/ev/");
 				rb.setCallback(new RequestCallback() {
 
 					public void onError(Request request, Throwable exception) {

@@ -75,18 +75,27 @@ public class EvenementResource implements CovoitService {
 		
 	}
 	
-	@POST
-	@Path("propose/{id}-{depart}-{dest}")
-	//@Produces(MediaType.TEXT_PLAIN)
-	public String proposeTrajet(@PathParam ("id") String id, String depart, String dest,
-			Date dateDeDepart) {
+	@GET
+	@Path("propose/{id}-{depart}-{dest}-{time}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String proposeTrajet(@PathParam ("id") String id, @PathParam("depart")String depart,@PathParam("dest") String dest,
+			@PathParam("time")Date dateDeDepart) {
 
 		Query query=manager.createQuery("SELECT p FROM PERSONNE AS p WHERE ID=id");
 		List result=query.getResultList();
 
 		Personne personne = (Personne) result.get(0);
-		manager.persist(personne.proposeTrajet(depart, dest, dateDeDepart));
-		return "OK";
+        Evenement e=personne.proposeTrajet(depart, dest, dateDeDepart);
+		manager.persist(e);
+        long even_id=e.getId();
+        Query verif=manager.createQuery("SELECT even FROM EVENEMENT AS even WHERE ID=even_id");
+        List resVeri=query.getResultList();
+        if(resVeri.isEmpty()){
+            return "NOK";
+        }
+        else {
+            return "OK";
+        }
 	}
 	
 	@GET
